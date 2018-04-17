@@ -4,7 +4,7 @@ exports[`VizPanelContainer Should match existing snapshot when given a single vi
 <Grid
   centered={true}
   className="VizPanelContainer"
-  columns={1}
+  padded={true}
   relaxed={true}
 >
   <GridRow
@@ -31,17 +31,22 @@ exports[`VizPanelContainer Should match existing snapshot when given a single vi
       wrapSelection={true}
     />
   </GridRow>
-  <GridColumn
-    key="0"
+  <GridRow
+    centered={true}
+    columns={1}
   >
-    <VizSelectorPanelClass
-      data={Object {}}
-      height={450}
-      initialViz="T-SNE"
-      onDataSelect={[Function]}
-      supportedVisualizations={Array []}
-      width={450}
-    />
-  </GridColumn>
+    <GridColumn
+      key="0"
+    >
+      <VizSelectorPanelClass
+        data={Object {}}
+        height={450}
+        initialViz="T-SNE"
+        onDataSelect={[Function]}
+        supportedVisualizations={Array []}
+        width={450}
+      />
+    </GridColumn>
+  </GridRow>
 </Grid>
 `;

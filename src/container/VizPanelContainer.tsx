@@ -63,7 +63,7 @@ export const VizPanelContainer = withDefaultProps(
 
     public render() {
       return (
-        <Grid className={'VizPanelContainer'} columns={this.props.numPanels} centered={true} relaxed={true}>
+        <Grid className={'VizPanelContainer'} centered={true} relaxed={true} padded={true}>
           <GridRow columns={1} centered={true}>
             <Dropdown
               onChange={this.onDataDirChange}
@@ -76,9 +76,11 @@ export const VizPanelContainer = withDefaultProps(
               search={true}
             />
           </GridRow>
-          {this.renderPanels(this.props.numPanels, this.state.data, this.props.initialVisualizations).map(
-            (panel, index) => <GridColumn key={index}>{panel}</GridColumn>,
-          )}
+          <GridRow columns={this.props.numPanels} centered={true}>
+            {this.renderPanels(this.props.numPanels, this.state.data, this.props.initialVisualizations).map(
+              (panel, index) => <GridColumn key={index}>{panel}</GridColumn>,
+            )}
+          </GridRow>
         </Grid>
       );
     }
