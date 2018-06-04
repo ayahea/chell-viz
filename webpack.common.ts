@@ -1,6 +1,8 @@
 import * as CleanWebpackPlugin from 'clean-webpack-plugin';
 import * as CopyWebpackPlugin from 'copy-webpack-plugin';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import * as TSDocgenPlugin from 'react-docgen-typescript-webpack-plugin';
+
 import * as webpack from 'webpack';
 
 // TODO: Use https://github.com/TypeStrong/typedoc and https://github.com/Microsoft/Typedoc-Webpack-Plugin
@@ -40,13 +42,6 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
-    new HtmlWebpackPlugin({
-      favicon: 'assets/favicons/favicon.ico',
-      filename: 'app.html',
-      inject: true,
-      template: './index.html',
-      title: 'Development',
-    }),
     new CopyWebpackPlugin([
       {
         from: './assets',
@@ -55,6 +50,14 @@ module.exports = {
         toType: 'dir',
       },
     ]),
+    new HtmlWebpackPlugin({
+      favicon: 'assets/favicons/favicon.ico',
+      filename: 'app.html',
+      inject: true,
+      template: './index.html',
+      title: 'Development',
+    }),
+    new TSDocgenPlugin(),
     new webpack.NamedModulesPlugin(),
   ],
   resolve: {

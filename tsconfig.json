@@ -3,8 +3,11 @@
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
+    "declaration": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
     "jsx": "react",
-    "lib": ["dom", "es2015"],
+    "lib": ["dom", "es5", "es6", "es7", "es2017"],
     "module": "commonjs",
     "noImplicitAny": true,
     "noUnusedLocals": true,
@@ -15,6 +18,7 @@
       "react": ["node_modules/@types/react"],
       "semantic-ui-react": ["node_modules/semantic-ui-react/index.d.ts"]
     },
+    "rootDirs": ["src, configs, stories"],
     "sourceMap": true,
     "strict": true,
     "target": "es5"
