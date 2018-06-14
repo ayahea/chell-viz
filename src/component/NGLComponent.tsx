@@ -3,6 +3,7 @@ import { PickingProxy, Stage, StructureComponent, StructureRepresentationType } 
 import * as React from 'react';
 import { Button, GridRow } from 'semantic-ui-react';
 
+import { Vector3 } from 'three';
 import ResidueContext, { initialResidueContext, ResidueSelection } from '../context/ResidueContext';
 import { RESIDUE_TYPE } from '../data/chell-data';
 import { createBallStickRepresentation, createDistanceRepresentation } from '../helper/NGLHelper';
@@ -123,17 +124,7 @@ export class NGLComponentClass extends React.Component<NGLComponentProps, NGLCom
    */
   protected addStructureToStage(data: NGL.Structure, stage: NGL.Stage) {
     const structureComponent = stage.addComponentFromObject(data);
-    /*
-    TODO https://github.com/arose/ngl/issues/541
-    data.eachResidue(outerResidue => {
-      data.eachResidue(innerResidue => {
-        if (outerResidue.resno !== innerResidue.resno) {
-          const dist = outerResidue.distanceTo(innerResidue);
-          console.log(`Distance between ${innerResidue.resno} and ${outerResidue.resno} is ${dist}`);
-        }
-      });
-    });
-    */
+
     this.setState({
       residueOffset: data.residueStore.resno[0],
       structureComponent,
@@ -172,12 +163,34 @@ export class NGLComponentClass extends React.Component<NGLComponentProps, NGLCom
       addCandidateResidues,
       addLockedResiduePair,
       candidateResidues,
+      data,
       removeCandidateResidues,
       removeHoveredResidues,
       removeLockedResiduePair,
     } = this.props;
     const { structureComponent } = this.state;
     if (pickingProxy && structureComponent) {
+      data!.eachResidue(outerResidue => {
+        const outerIndex = outerResidue.direction1AtomIndex;
+        const outer = new Vector3(
+          structureComponent.structure.atomStore.x[outerIndex],
+          structureComponent.structure.atomStore.y[outerIndex],
+          structureComponent.structure.atomStore.z[outerIndex],
+        );
+        data!.eachResidue(innerResidue => {
+          if (outerResidue.resno !== innerResidue.resno) {
+            const innerIndex = innerResidue.direction1AtomIndex;
+            const inner = new Vector3(
+              structureComponent.structure.atomStore.x[innerIndex],
+              structureComponent.structure.atomStore.y[innerIndex],
+              structureComponent.structure.atomStore.z[innerIndex],
+            );
+
+            const dist = outer.distanceTo(inner);
+            console.log(`Distance between resno ${outerResidue.resno} and ${innerResidue.resno} is ${dist}`);
+          }
+        });
+      });
       const isDistancePicker = pickingProxy.picker && pickingProxy.picker.type === 'distance';
 
       if (isDistancePicker) {
